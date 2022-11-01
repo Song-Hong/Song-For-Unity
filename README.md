@@ -6,15 +6,15 @@
 
 Editor  Mode
 
-​	Extend
+  Extend
 
-​		Set	   : Contains init、net、song extend package tools
+    Set	      : Contains init、net、song extend package tools
 
-​		UMLEditor : Create and manage UML files
+    UMLEditor : Create and manage UML files
 
 
 
 Runtime Mode
 
-​	None
+  None
 
