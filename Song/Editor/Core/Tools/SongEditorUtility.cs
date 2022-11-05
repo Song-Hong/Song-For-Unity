@@ -9,21 +9,31 @@ namespace Song.Editor.Core.Tools
     public class SongEditorUtility
     {
         /// <summary>
-        /// get assets now show path
+        /// get Assets now show path 
+        /// </summary>
+        /// <returns></returns>
+        public static string GetAssetsNowShowPath()
+        {
+            Object[] arr = Selection.GetFiltered(typeof(Object), SelectionMode.TopLevel);
+            return AssetDatabase.GetAssetPath(arr[0]);
+        }
+
+        /// <summary>
+        /// get assets now show dir path
         /// </summary>
         /// <returns></returns>
         public static string GetAssetsOpenDirPath()
         {
             string dir = "Assets";
-            foreach (var obj in Selection.GetFiltered<UnityEngine.Object>(SelectionMode.Assets))
+            foreach (var obj in Selection.GetFiltered<Object>(SelectionMode.Assets))
             {
                 var path = AssetDatabase.GetAssetPath(obj);
                 if (string.IsNullOrEmpty(path))
                     continue;
-                if (System.IO.Directory.Exists(path))
+                if (Directory.Exists(path))
                     dir = path;
-                else if (System.IO.File.Exists(path))
-                    dir = System.IO.Path.GetDirectoryName(path);
+                else if (File.Exists(path))
+                    dir = Path.GetDirectoryName(path);
             }
             return dir;
         }

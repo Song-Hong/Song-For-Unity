@@ -8,23 +8,23 @@ using UnityEngine.UIElements;
 namespace Song.Extend.UML
 {
     /// <summary>
-    /// UML 编辑窗口
+    /// UML editor window
     /// </summary>
     public class UMLEditorWindow:EditorWindow
     {
-        #region 资源位置
-        private readonly string bgcstyle_path = "Assets/Song/Extend/UML_Editor/Editor/View/UMLEditorBackGround.uss";
+        #region assets patg
+        private readonly string bgcstyle_path = "Assets/Song/Extend/UMLEditor/Editor/View/UMLEditorBackGround.uss";
         #endregion
 
-        #region 私有字段 
+        #region private field 
         private UMLView view;
         #endregion
 
-        [MenuItem("Song/UML编辑器")]
+        [MenuItem("Song/UML")]
         public static void ShowWindow()
         {
             UMLEditorWindow window = GetWindow<UMLEditorWindow>();
-            window.titleContent = new GUIContent("UML编辑器");
+            window.titleContent = new GUIContent("UML editor");
             window.Show();
         }
 
@@ -34,9 +34,9 @@ namespace Song.Extend.UML
             InitMiniMap();
         }
 
-        #region 初始化
+        #region initialize
         /// <summary>
-        /// 初始化
+        /// initialize
         /// </summary>
         public void Init()
         {
@@ -44,11 +44,11 @@ namespace Song.Extend.UML
             view = new UMLView();
             rootVisualElement.Add(view);
             view.styleSheets.Add(bgc_style);
-            AddDialogueNode();//测试添加节点
+            AddDialogueNode();//ass node
         }
 
         /// <summary>
-        /// 初始化小地图
+        /// create mini map
         /// </summary>
         public void InitMiniMap()
         {

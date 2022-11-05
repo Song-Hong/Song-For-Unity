@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
-using Song.Core.Data;
+using Song.Runtime.Core.Data;
 using Song.Editor.Core.Data;
 using Song.Editor.Core.Tools;
 
@@ -15,7 +15,9 @@ namespace Song.Editor.FileFormat
     {
         public override void OnImportAsset(AssetImportContext ctx)
         {
-
+            Texture2D asset = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Song/Editor/Art/Icons/songset.png");
+            ctx.AddObjectToAsset("songset", asset);
+            ctx.SetMainObject(asset);
         }
     }
 

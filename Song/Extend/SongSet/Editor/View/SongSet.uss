@@ -3,15 +3,13 @@
     height: 30px;
     margin-top: 2px;
     margin-bottom: 2px;
-    background-image: url('project://database/Assets/Song/Extend/SongSet/Editor/Art/bgi_h.png?fileID=2800000&guid=c5fe95bc8064d4cf7a4af94297985492&type=3#bgi_h');
-    -unity-background-image-tint-color: rgb(58, 58, 58);
-    -unity-font: url('project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=2d2d6936eb63e47e381f8553f0ad50b6&type=3#NotInter-Regular');
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    border-left-color: rgb(58, 58, 58);
-    border-right-color: rgb(58, 58, 58);
-    border-top-color: rgb(58, 58, 58);
-    border-bottom-color: rgb(58, 58, 58);
+    border-left-color: rgba(58, 58, 58, 255);
+    border-right-color: rgba(58, 58, 58, 255);
+    border-top-color: rgba(58, 58, 58, 255);
+    border-bottom-color: rgba(58, 58, 58, 255);
+    background-color: rgba(58, 58, 58, 255);
 }

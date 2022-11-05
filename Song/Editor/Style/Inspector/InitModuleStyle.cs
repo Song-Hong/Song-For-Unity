@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Song.Core;
+using Song.Runtime.Core;
 using UnityEngine.UIElements;
 using Song.Editor.Core.Data;
-using Song.Core.Data;
+using Song.Runtime.Core.Data;
 
 namespace Song.Editor.Style
 {
@@ -33,7 +33,7 @@ namespace Song.Editor.Style
             Label fpsName = new Label("FPS");
             root.Add(fpsName);
 
-            Set set = Config.LoadSet(Application.streamingAssetsPath+"/Config/InitModule.set");
+            //Set set = Config.LoadSet(Application.streamingAssetsPath+"/Config/InitModule.set");
             return root;
         }
     }

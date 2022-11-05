@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using System;
+using Song.Editor.Core.Tools;
 
 namespace Song.Extend.SongSet
 {
@@ -27,6 +28,7 @@ namespace Song.Extend.SongSet
         private ScrollView     leftmenu;
         private VisualElement  rightpanel;
         private Button         lastbtn;
+        private SongSetPage    nowpage;
         #endregion
 
         #region Style
@@ -47,7 +49,7 @@ namespace Song.Extend.SongSet
             root = m_VisualTreeAsset.Instantiate();
             rootVisualElement.Add(root);
             root.StretchToParentSize();
-            leftmenu = root.Q<ScrollView>("LeftMenu");
+            leftmenu   = root.Q<ScrollView>("LeftMenu");
             rightpanel = root.Q<VisualElement>("RightPanel");
             InitLeftMenu();
         }
@@ -66,6 +68,7 @@ namespace Song.Extend.SongSet
             }
             foreach (var page in pages)
             {
+                page.Value.songset = this;
                 Button left_btn = new Button();
                 left_btn.name = page.Key;
                 left_btn.text = page.Key;
@@ -73,19 +76,47 @@ namespace Song.Extend.SongSet
                 left_btn.AddToClassList("LeftItem");
                 left_btn.clicked += delegate
                 {
-                    if (lastbtn != null && string.Compare(left_btn.name, lastbtn.name) == 0) return;
-                    if (lastbtn != null)
-                    {
-                        lastbtn.style.unityBackgroundImageTintColor = btn_default;
-                    }
-                    left_btn.style.unityBackgroundImageTintColor = btn_click;
-                    var new_rightpanel = page.Value.Show();
-                    rightpanel.Clear();
-                    rightpanel.Add(new_rightpanel);
-                    new_rightpanel.StretchToParentSize();
-                    lastbtn = left_btn;
+                    ShowRightPanel(left_btn, page);
                 };
+                if (lastbtn == null)
+                {
+                    ShowRightPanel(left_btn, page);
+                }
             }
+        }
+
+        public void ShowRightPanel(Button left_btn, KeyValuePair<string, SongSetPage> page)
+        {
+            if (lastbtn != null && string.Compare(left_btn.name, lastbtn.name) == 0) return;
+            if (lastbtn != null)
+            {
+                nowpage.OnClose();
+                lastbtn.style.backgroundColor = btn_default;
+            }
+            left_btn.style.backgroundColor = btn_click;
+            var new_rightpanel = page.Value.Show();
+            rightpanel.Clear();
+            rightpanel.Add(new_rightpanel);
+            new_rightpanel.StretchToParentSize();
+            lastbtn = left_btn;
+            nowpage = page.Value;
+        }
+
+        public void GetAssets(string format,Action<string> CallBack=null)
+        {
+            //var file = new SongFileSelection<T>(rootVisualElement);
+            //file.GetWindow();
+            //file.ClickCallBack += delegate(T t){ CallBack?.Invoke(t);};
+            SongFileSelection.ShowWindow(format, (string path)=>
+            {
+                CallBack?.Invoke(path);
+            }, delegate { GetWindow<SongSet>().Show();});
+        }
+
+        public void OnDestroy()
+        {
+            if(nowpage!=null)
+                nowpage.OnClose();
         }
     }
 }

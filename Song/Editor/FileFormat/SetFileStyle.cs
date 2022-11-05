@@ -1,26 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Song.Core.Data;
+using Song.Runtime.Core.Data;
 using Song.Editor.Core.Data;
 using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Song.Editor.Core.Tools;
 
 namespace Song.Editor.FileFormat
 {
     [CustomEditor(typeof(SetFileSupport))]
     public class SetFileFormatStyle : ScriptedImporterEditor
     {
-        public override bool showImportedObject => false;
-        string path;
-        Set set;
+        public  override bool showImportedObject => false;
+        public  override bool HasPreviewGUI() => false;
+
+        private string   path;
+        private Set      set;
+
         public override void OnEnable()
         {
             base.OnEnable();
-            UnityEngine.Object[] arr = Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.TopLevel);
-            path = AssetDatabase.GetAssetPath(arr[0]);
+            path = SongEditorUtility.GetAssetsNowShowPath();
             set = new Set(File.ReadAllText(path));
         }
 
@@ -65,8 +68,24 @@ namespace Song.Editor.FileFormat
             if (texture != null)
             {
                 GUI.Label(new Rect(10,10,32,32),new GUIContent(texture));
-                GUI.Label(new Rect(50, 4, Screen.width - 50, 32), Path.GetFileNameWithoutExtension(path)+("(set file)"));
+                GUI.Label(new Rect(50, 4, Screen.width - 50, 32), Path.GetFileNameWithoutExtension(path)+(" (set file)"));
             }
+            //if (GUI.Button(new Rect(Screen.width - 80, 16, 60, 20), "reload"))
+            //{
+            //    try
+            //    {
+            //        AssetDatabase.DeleteAsset(path);
+            //    }
+            //    catch (System.Exception ex)
+            //    {
+            //        System.Console.Write(ex);
+            //    }
+            //    finally
+            //    {
+            //        set.Save(path);
+            //        AssetDatabase.Refresh();
+            //    }
+            //}
             GUILayout.Space(64);
         }
     }
