@@ -1,0 +1,33 @@
+en
+{
+	1 : Error in SongUML file
+	2 : Click the button below
+	3 : Format the file
+	Override : Override
+	UMLName : UMLName
+	NoteCount : NoteCount
+	save : save
+
+}
+zh
+{
+	1 : SongUML文件错误
+	2 : 点击下方按钮
+	3 : 格式化该文件
+	Override : 格式化
+	UMLName : 名称
+	NoteCount : 节点数量
+	save : 存储
+
+}
+cht
+{
+	1 : SongUML檔案錯誤
+	2 : 點擊下方按鈕
+	3 : 格式化該檔案
+	Override : 格式化
+	UMLName : 名稱
+	NoteCount : 節點數量
+	save : 存儲
+
+}

@@ -12,19 +12,17 @@ namespace Song.Extend.UML
     /// </summary>
     public class UMLEditorWindow:EditorWindow
     {
-        #region assets patg
+        #region assets
         private readonly string bgcstyle_path = "Assets/Song/Extend/UMLEditor/Editor/View/UMLEditorBackGround.uss";
-        #endregion
-
-        #region private field 
         private UMLView view;
+        private UMLData data;
         #endregion
 
         [MenuItem("Song/UML")]
         public static void ShowWindow()
         {
             UMLEditorWindow window = GetWindow<UMLEditorWindow>();
-            window.titleContent = new GUIContent("UML editor");
+            window.titleContent = new GUIContent("UML Editor");
             window.Show();
         }
 
@@ -44,7 +42,13 @@ namespace Song.Extend.UML
             view = new UMLView();
             rootVisualElement.Add(view);
             view.styleSheets.Add(bgc_style);
-            AddDialogueNode();//ass node
+            UMLData.Load("Assets/Song/Extend/UMLEditor/newuml.songuml", (UMLNodeData data)=>
+            {
+                CreateNode(data);
+            },(UMLData data) =>
+            {
+                this.data = data;
+            });
         }
 
         /// <summary>
@@ -60,29 +64,24 @@ namespace Song.Extend.UML
         }
         #endregion
 
-        public void AddDialogueNode()
+        /// <summary>
+        /// create new node from UmlNodeData and add to UMLView                                  
+        /// </summary>
+        /// <param name="data"></param>
+        public void CreateNode(UMLNodeData data)
         {
-            // 1. 创建Node
             UMLNode node = new UMLNode();
-            node.title = "node1";
-            node.SetPosition(new Rect(x: 100, y: 200, width: 100, height: 150));
-            var iport = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(float));
-            iport.portName = "next";
-            node.outputContainer.Add(iport);
-            node.RefreshExpandedState();
+            node.title = data.name;
+            data.rect.height = (data.Attribute.Count+data.Method.Count)*50 + 100;
+            node.SetPosition(data.rect);
+            var inPort = node.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(float));
+            inPort.portName = "in";
+            var outPort = node.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(float));
+            outPort.portName = "out";
+            node.inputContainer.Add(inPort);
+            node.outputContainer.Add(outPort);
             node.RefreshPorts();
             view.AddElement(node);
-
-            //2. 创建Node
-            UMLNode node1 = new UMLNode();
-            node1.title = "node2";
-            node1.SetPosition(new Rect(x: 200, y: 200, width: 100, height: 150));
-            var iport1 = node1.InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(float));
-            iport1.portName = "input";
-            node1.inputContainer.Add(iport1);
-            node1.RefreshExpandedState();
-            node1.RefreshPorts();
-            view.AddElement(node1);
         }
 
     }

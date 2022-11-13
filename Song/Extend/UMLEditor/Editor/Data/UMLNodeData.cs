@@ -5,29 +5,18 @@ using UnityEngine;
 namespace Song.Extend.UML
 {
     /// <summary>
-    /// UML节点数据
+    /// UML Node Data
     /// </summary>
-    public class UMLNodeData 
+    public class UMLNodeData
     {
-        /// <summary>
-        /// 节点类型
-        /// </summary>
-        public UMLNodeType NodeType;
-        /// <summary>
-        /// 全部属性
-        /// </summary>
-        public List<string> Attributes;
-        /// <summary>
-        /// 全部方法
-        /// </summary>
-        public List<string> Methods;
-
-        /// <summary>
-        /// UML节点数据
-        /// </summary>
+        public string name;
+        public List<string> Attribute;
+        public List<string> Method;
+        public Rect   rect;
         public UMLNodeData()
         {
-
+            Attribute = new List<string>();
+            Method    = new List<string>();
         }
     }
 }

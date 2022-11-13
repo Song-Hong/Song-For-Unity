@@ -7,12 +7,12 @@ using UnityEngine.UIElements;
 namespace Song.Extend.UML
 {
     /// <summary>
-    /// UML 视图
+    /// UML view
     /// </summary>
     public class UMLView : GraphView
     {
         /// <summary>
-        /// 初始化
+        /// initialize
         /// </summary>
         public UMLView()
         {
@@ -29,17 +29,33 @@ namespace Song.Extend.UML
         }
 
         /// <summary>
-        /// 构建右键菜单
+        /// custom Contextual Menu
         /// </summary>
         /// <param name="evt"></param>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             base.BuildContextualMenu(evt);
-            
         }
 
         /// <summary>
-        /// 处理节点之间的连线
+        /// Connecting two ports
+        /// </summary>
+        /// <param name="_outputPort">out port</param>
+        /// <param name="_inputPort">in port</param>
+        public void AddEdgeByPorts(Port outputPort, Port inputPort)
+        {
+            Edge tempEdge = new Edge()
+            {
+                output = outputPort,
+                input = inputPort
+            };
+            tempEdge.input.Connect(tempEdge);
+            tempEdge.output.Connect(tempEdge);
+            Add(tempEdge);
+        }
+
+        /// <summary>
+        /// Handles the cables between nodes
         /// </summary>
         /// <param name="startPort"></param>
         /// <param name="nodeAdapter"></param>
@@ -47,7 +63,7 @@ namespace Song.Extend.UML
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             var compatiblePorts = new List<Port>();
-            var startPortView = startPort;
+            var startPortView   = startPort;
 
             ports.ForEach((port) =>
             {

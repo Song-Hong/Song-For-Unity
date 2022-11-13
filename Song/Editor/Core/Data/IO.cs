@@ -18,7 +18,7 @@ namespace Song.Editor.Core
         /// </summary>
         /// <param name="path">file path</param>
         /// <param name="EndCallBack">end call back</param>
-        public async void Read(string path, Action<string> EndCallBack=null)
+        public async void ReadA(string path, Action<string> EndCallBack=null)
         {
             var file_task = new Task<string>(() => StartRead(path));
             file_task.Start();
@@ -29,8 +29,19 @@ namespace Song.Editor.Core
         private string StartRead(string path)
         {
             if (!File.Exists(path)) throw new Exception("file can't exists");
-            StreamReader sr = new StreamReader(path);
-            return sr.ReadToEnd();
+            using (StreamReader sr = new StreamReader(path))
+            {
+                return sr.ReadToEnd();
+            }
+        }
+
+        public void SaveTCover(string path,string content)
+        {
+            Thread thread = new Thread(() =>
+            {
+                File.WriteAllText(path, content);
+            });
+            thread.Start();
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.IO;
+using Song.Editor.Core.Data;
+using Song.Runtime.Core.Data;
 using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -22,12 +24,14 @@ namespace Song.Editor.Core.Tools
         private static Action WindowCloseCallBack;
         private static string fileformat;
         private List<string> assets;
+        private static Set set;
 
-        public static void ShowWindow(string format, Action<string> ClickCallBack = null, Action CloseCallBack = null) 
+        public static void ShowWindow(string format, Action<string> ClickCallBack = null, Action CloseCallBack = null,string title = "") 
         {
             CallBack = ClickCallBack;
             WindowCloseCallBack = CloseCallBack;
             fileformat = "";
+            set = Config.LoadSet("Assets/Song/Editor/Others/Config/Set/SongFileSelection.songset");
             foreach(var item in format.Split(","))
             {
                 if (!item.StartsWith("."))
@@ -35,7 +39,8 @@ namespace Song.Editor.Core.Tools
                 else fileformat += item;
             }
             var wnd = GetWindow<SongFileSelection>();
-            wnd.titleContent = new GUIContent("File Selection");
+            if (string.IsNullOrWhiteSpace(title)) title = "File Selection";
+            wnd.titleContent = new GUIContent(title);
             wnd.Show();
         }
 
@@ -112,9 +117,15 @@ namespace Song.Editor.Core.Tools
                 CallBack?.Invoke(path);
                 GetWindow<SongFileSelection>().Close();
             });
-            if (".jpg.png.JPG.PNG".Contains(Path.GetExtension(path)))
+            var extend = Path.GetExtension(path);
+            if (".jpg.png.JPG.PNG".Contains(extend))
             {
                 node.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                node.style.backgroundColor = panel_bgc;
+            }
+            else if (set.datas.ContainsKey(extend))
+            {
+                node.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>(set[extend]);
                 node.style.backgroundColor = panel_bgc;
             }
             Label node_name = new Label();

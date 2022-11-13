@@ -1,0 +1,18 @@
+en
+{
+	General : General
+	Net : Net
+	Package : Package
+}
+zh
+{
+	General : 通用
+	Net : 网络
+	Package : 包管理器
+}
+cht
+{
+	General : 通用
+	Net : 網絡
+	Package : 包管理器
+}

@@ -1,0 +1,24 @@
+en
+{
+	Version : Version
+	Icon : Icon
+	Name : Name
+	Lang : Lang
+	Project Setting : Project Setting
+}
+zh
+{
+	Version : 版本
+	Icon : 图标
+	Name : 名称
+	Lang : 语言
+	Project Setting : 项目设置
+}
+cht
+{
+	Version : 版本
+	Icon : 圖標
+	Name : 名稱
+	Lang : 語言
+	Project Setting : 項目設置
+}

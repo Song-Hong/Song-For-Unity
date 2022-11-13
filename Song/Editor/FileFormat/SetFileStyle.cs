@@ -8,27 +8,31 @@ using UnityEditor.AssetImporters;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Song.Editor.Core.Tools;
+using Song.Editor.Core;
+using Song.Editor.Core.Base;
 
 namespace Song.Editor.FileFormat
 {
     [CustomEditor(typeof(SetFileSupport))]
-    public class SetFileFormatStyle : ScriptedImporterEditor
+    public class SetFileFormatStyle : CustomFileStyle
     {
-        public  override bool showImportedObject => false;
-        public  override bool HasPreviewGUI() => false;
+        protected override string IconPath() => "Assets/Song/Editor/Others/Art/Icons/songset.png";
+        protected override string FileFormat() => "set file";
 
-        private string   path;
-        private Set      set;
+        private Set set;
+        private Lang langdata;
+        private string langname;
 
-        public override void OnEnable()
+        protected override void Init()
         {
-            base.OnEnable();
-            path = SongEditorUtility.GetAssetsNowShowPath();
-            set = new Set(File.ReadAllText(path));
+            set = new Set(File.ReadAllText(Path));
+            langname = SongEditorUtility.GetLangName();
+            langdata = Config.LoadLang("Assets/Song/Editor/Others/Config/Lang/SetFileSupport.songlang");
         }
 
-        public override void OnInspectorGUI()
+        protected override void InspectorStyle()
         {
+            
             Dictionary<string, string> datas = new Dictionary<string, string>();
             float width = ((Screen.width - 90) / 2);
             foreach (var item in set.datas)
@@ -49,44 +53,16 @@ namespace Song.Editor.FileFormat
 
             GUILayout.Space(6);
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("new",GUILayout.Width(40),GUILayout.Height(20)))
+            if (GUILayout.Button(langdata[langname]["new"],GUILayout.Width(50),GUILayout.Height(20)))
             {
                 set["new_property"]= "";
             }
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("save", GUILayout.Width(60), GUILayout.Height(20)))
+            if (GUILayout.Button(langdata[langname]["save"], GUILayout.Width(60), GUILayout.Height(20)))
             {
-                set.Save(path);
+                set.Save(Path);
             }
             GUILayout.EndHorizontal();
-            base.ApplyRevertGUI();
-        }
-
-        protected override void OnHeaderGUI()
-        {
-            Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Song/Editor/Art/Icons/songset.png");
-            if (texture != null)
-            {
-                GUI.Label(new Rect(10,10,32,32),new GUIContent(texture));
-                GUI.Label(new Rect(50, 4, Screen.width - 50, 32), Path.GetFileNameWithoutExtension(path)+(" (set file)"));
-            }
-            //if (GUI.Button(new Rect(Screen.width - 80, 16, 60, 20), "reload"))
-            //{
-            //    try
-            //    {
-            //        AssetDatabase.DeleteAsset(path);
-            //    }
-            //    catch (System.Exception ex)
-            //    {
-            //        System.Console.Write(ex);
-            //    }
-            //    finally
-            //    {
-            //        set.Save(path);
-            //        AssetDatabase.Refresh();
-            //    }
-            //}
-            GUILayout.Space(64);
         }
     }
 }

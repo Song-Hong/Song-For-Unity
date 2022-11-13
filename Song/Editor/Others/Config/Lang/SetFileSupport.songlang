@@ -1,0 +1,15 @@
+en
+{
+	new : new
+	save : save
+}
+zh
+{
+	new : 新属性
+	save : 存储
+}
+cht
+{
+	new : 新内容
+	save : 存儲
+}

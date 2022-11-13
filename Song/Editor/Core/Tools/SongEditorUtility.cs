@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Song.Editor.Core.Data;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static Unity.VisualScripting.Icons;
 
 namespace Song.Editor.Core.Tools
 {
@@ -59,6 +62,52 @@ namespace Song.Editor.Core.Tools
                 else index++;
             }
             return path;
+        }
+
+        /// <summary>
+        /// get set lang name
+        /// </summary>
+        /// <returns>lang name</returns>
+        public static string GetLangName()
+        {
+            string langname = Config.LoadSet("Assets/Song/Editor/Others/Config/Set/songset.songset")["Lang"];
+            if (string.IsNullOrWhiteSpace(langname)) langname = "en";
+            return langname;
+        }
+
+        /// <summary>
+        /// Returns a draggable box
+        /// </summary>
+        /// <param name="index">box index</param>
+        /// <returns>draggable box</returns>
+        public static IMGUIContainer GetDragBox(int index)
+        {
+            var box = new IMGUIContainer();
+            box.onGUIHandler = () =>
+            {
+                var controlId = GUIUtility.GetControlID(index, FocusType.Passive);
+                var rvt = Event.current.GetTypeForControl(controlId);
+                if (rvt == EventType.MouseDown)
+                {
+                    GUIUtility.hotControl = controlId;
+                }
+                else if(rvt == EventType.MouseDrag)
+                {
+                    if (GUIUtility.hotControl == controlId)
+                    {
+                        box.style.left = box.style.left.value.value + Event.current.delta.x;
+                        box.style.top = box.style.top.value.value + Event.current.delta.y;
+                    }
+                }
+                else if (rvt == EventType.MouseUp)
+                {
+                    if (GUIUtility.hotControl == controlId)
+                    {
+                        GUIUtility.hotControl = -1;
+                    }
+                }
+            };
+            return box;
         }
     }
 }

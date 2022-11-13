@@ -1,0 +1,24 @@
+en
+{
+	Version : Version
+	Author : Author
+	Describe : Describe
+	Delete : Delete
+	Update : Update
+}
+zh
+{
+	Version : 版本
+	Author : 作者
+	Describe : 描述
+	Delete : 删除
+	Update : 更新
+}
+cht
+{
+	Version : 版本
+	Author : 作者
+	Describe : 描述
+	Delete : 删除
+	Update : 更新
+}

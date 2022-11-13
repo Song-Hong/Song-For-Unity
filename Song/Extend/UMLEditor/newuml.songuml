@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UML>
+	<Name>newuml</Name>
+	<Node>
+		<Name>test_node</Name>
+		<Rect>100,200,100,150</Rect>
+		<Attributes>
+			<Attribute>+ name : string</Attribute>
+		</Attributes>
+		<Methods></Methods>
+	</Node>
+	<Node>
+		<Name>test_node</Name>
+		<Rect>200,200,100,150</Rect>
+		<Attributes></Attributes>
+		<Methods></Methods>
+	</Node>
+</UML>

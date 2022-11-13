@@ -7,18 +7,15 @@ using UnityEngine;
 using Song.Runtime.Core.Data;
 using Song.Editor.Core.Data;
 using Song.Editor.Core.Tools;
+using Song.Editor.Core;
 
 namespace Song.Editor.FileFormat
 {
     [ScriptedImporter(1, ".songset")]
-    public class SetFileSupport : ScriptedImporter
+    public class SetFileSupport : CustomFileSupport
     {
-        public override void OnImportAsset(AssetImportContext ctx)
-        {
-            Texture2D asset = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Song/Editor/Art/Icons/songset.png");
-            ctx.AddObjectToAsset("songset", asset);
-            ctx.SetMainObject(asset);
-        }
+        protected override string iconpath() => "Assets/Song/Editor/Others/Art/Icons/songset.png";
+        protected override string fileformat() => "songset";
     }
 
     /// <summary>

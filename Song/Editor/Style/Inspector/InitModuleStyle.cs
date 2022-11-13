@@ -6,6 +6,7 @@ using Song.Runtime.Core;
 using UnityEngine.UIElements;
 using Song.Editor.Core.Data;
 using Song.Runtime.Core.Data;
+using Song.Runtime.Module;
 
 namespace Song.Editor.Style
 {

@@ -1,0 +1,48 @@
+en
+{
+	new : new
+	new_lang : new_lang
+	save : save
+	open : open
+	FindTip : Open a lang file
+	Attribute : Attribute\Lang
+	Col : Col
+	Row : Row
+	DelTip : Do you want to delete it?
+	Cancel : Cancel
+	Agree : Agree
+	NewLange : newLange
+	NewProperty : newProperty
+}
+zh
+{
+	new : 新属性
+	new_lang : 新语言
+	save : 存储
+	open : 打开
+	FindTip : 打开一个语言文件
+	Attribute : 属性\语言
+	Col : 列
+	Row : 行
+	DelTip : 确定删除吗？
+	Cancel : 取消
+	Agree : 确定
+	NewLange : 新语言
+	NewProperty : 新属性
+}
+cht
+{
+	new : 新内容
+	new_lang : 新語言
+	save : 存儲
+	open : 打開
+	FindTip : 打開一個語言檔案
+	Attribute : 内容\語言
+	Col : 列
+	Row : 行
+	DelTip : 確定删除吗？
+	Cancel : 取消
+	Agree : 確定
+	NewLange : 新語言
+	NewProperty : 新内容
+}

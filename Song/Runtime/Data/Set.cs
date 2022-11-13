@@ -8,8 +8,8 @@ namespace Song.Runtime.Core.Data
     public class Set 
     {
         #region data
-        public Dictionary<string, string> datas;
-        public string savepath;
+        public Dictionary<string, string>            datas;
+        public string                                savepath;
         #endregion
 
         #region
@@ -37,7 +37,7 @@ namespace Song.Runtime.Core.Data
             }
         }
 
-        #region io
+        #region parsing
         public void LoadSet(string content) => LoadSet(content.Split("\n"));
 
         public void LoadSet(List<string> items) => LoadSet(items.ToArray());
