@@ -1,14 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using Song.Runtime.Core;
-using UnityEngine.UIElements;
-using Song.Editor.Core.Data;
-using Song.Runtime.Core.Data;
+using System.IO;
 using Song.Runtime.Module;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-namespace Song.Editor.Style
+namespace Song.Editor.Style.Inspector
 {
     /// <summary>
     /// Init Module Style For InitModule
@@ -19,7 +16,7 @@ namespace Song.Editor.Style
         public override VisualElement CreateInspectorGUI()
         {
             //style
-            StyleColor theme_color = new Color(0.968f, 0.503f, 0.223f);
+            StyleColor themeColor = new Color(0.968f, 0.503f, 0.223f);
 
             //root
             VisualElement root = new VisualElement();
@@ -27,15 +24,17 @@ namespace Song.Editor.Style
             //title
             Label initname = new Label("Song");
             initname.style.alignSelf = Align.Center;
-            initname.style.color = theme_color;
+            initname.style.color = themeColor;
             root.Add(initname);
 
             //fps
             Label fpsName = new Label("FPS");
             root.Add(fpsName);
+            
 
-            //Set set = Config.LoadSet(Application.streamingAssetsPath+"/Config/InitModule.set");
+                 
             return root;
         }
     }
 }
+

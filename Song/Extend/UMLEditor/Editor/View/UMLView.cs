@@ -34,6 +34,16 @@ namespace Song.Extend.UML
         /// <param name="evt"></param>
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
+            evt.menu.AppendAction("test",
+                delegate(DropdownMenuAction action)
+                {
+                    
+                },
+                delegate(DropdownMenuAction action)
+                {
+                    return DropdownMenuAction.Status.None;
+                });
+            // evt.
             base.BuildContextualMenu(evt);
         }
 

@@ -5,6 +5,7 @@ en
 	Describe : Describe
 	Delete : Delete
 	Update : Update
+	Set : Set
 }
 zh
 {
@@ -13,6 +14,7 @@ zh
 	Describe : 描述
 	Delete : 删除
 	Update : 更新
+	Set : 设置
 }
 cht
 {
@@ -21,4 +23,5 @@ cht
 	Describe : 描述
 	Delete : 删除
 	Update : 更新
+	Set : 設定
 }

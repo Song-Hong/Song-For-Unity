@@ -28,7 +28,7 @@ namespace Song.Editor.FileFormat
         {
             uml = UMLData.Load(Path);
             langname = SongEditorUtility.GetLangName();
-            langdata = Config.LoadLang("Assets/Song/Extend/UMLEditor/Editor/UMLEditor.songlang");
+            langdata = Config.LoadLang("Assets/Song/Extend/UMLEditor/Editor/Config/UMLEditor.songlang");
         }
 
         protected override void InspectorStyle()

@@ -18,7 +18,7 @@ namespace Song.Extend.SongSet
         public SongSet songset;
 
         /// <summary>
-        /// shou
+        /// show man page
         /// </summary>
         /// <returns></returns>
         public abstract VisualElement Show();

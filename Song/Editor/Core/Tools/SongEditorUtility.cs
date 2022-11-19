@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Song.Editor.Core.Data;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static Unity.VisualScripting.Icons;
+using Object = UnityEngine.Object;
 
 namespace Song.Editor.Core.Tools
 {
@@ -20,7 +23,7 @@ namespace Song.Editor.Core.Tools
             Object[] arr = Selection.GetFiltered(typeof(Object), SelectionMode.TopLevel);
             return AssetDatabase.GetAssetPath(arr[0]);
         }
-
+        
         /// <summary>
         /// get assets now show dir path
         /// </summary>
@@ -62,6 +65,60 @@ namespace Song.Editor.Core.Tools
                 else index++;
             }
             return path;
+        }
+        
+        /// <summary>
+        /// Obtain the paths of all files in the folder
+        /// </summary>
+        /// <param name="directory">directory path</param>
+        /// <param name="pattern">File type</param>
+        /// <returns>paths</returns>
+        public static List<string> GetFiles(string directory,string pattern = "*")
+        {
+            List<string> files = new List<string>();
+            foreach (var item in Directory.GetFiles(directory))
+            {
+                if (item.EndsWith(".meta"))
+                    continue;
+                else if (pattern == "*")
+                    files.Add(item);
+                else if (pattern.Contains(Path.GetExtension(item)))
+                {
+                    files.Add(item);
+                }
+            }
+            foreach (var item in Directory.GetDirectories(directory))
+            {
+                files.AddRange(GetFiles(item,pattern));
+            }
+            return files;
+        }
+        
+        /// <summary>
+        /// Obtain all files in the current folder asynchronously
+        /// </summary>
+        /// <param name="directory"></param>
+        /// <param name="pattern"></param>
+        public static void GetFilesAsync(string directory, string pattern = "*",Action<string> GetCallBack = null)
+        {
+            var mainThread = SynchronizationContext.Current;
+            var ioThread = new Thread(() =>
+            {
+                DirectoryInfo dirinfo = new DirectoryInfo(directory);
+                foreach (var filePath in dirinfo.GetFiles(".", System.IO.SearchOption.AllDirectories))
+                {
+                    if(filePath.ToString().EndsWith(pattern))
+                    {   
+                        mainThread.Post(new SendOrPostCallback(delegate(object state)
+                        {
+                            GetCallBack?.Invoke(state.ToString());
+                        }), filePath);
+                    }
+                }
+
+            });
+            ioThread.IsBackground = true;
+            ioThread.Start();
         }
 
         /// <summary>

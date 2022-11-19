@@ -19,10 +19,11 @@ namespace Song.Extend.SongSet
         private Color node_bgc = new Color(0.2f, 0.2f, 0.2f);
         private Lang lang;
         private string _lang;
-
+        private VisualElement root;
+        
         public override VisualElement Show()
         {
-            var root = new VisualElement();
+            root = new VisualElement();
             var set = new Set();
             lang = Config.LoadLang("Assets/Song/Editor/Others/Config/Lang/PackagePage.songlang");
             _lang = songset.lang;
@@ -50,17 +51,22 @@ namespace Song.Extend.SongSet
         /// <returns></returns>
         public VisualElement Node(Set set,int index =0)
         {
-            VisualElement node = new VisualElement();
-            node.style.marginLeft  = 20;
-            node.style.marginRight = 20;
-            node.style.backgroundColor = node_bgc;
-            node.style.height = 100;
-            node.style.marginTop = 10 + index*110;
-            node.style.borderTopLeftRadius     = 6;
-            node.style.borderTopRightRadius    = 6;
-            node.style.borderBottomLeftRadius  = 6;
-            node.style.borderBottomRightRadius = 6;
-            node.name = set["name"];
+            var node = new VisualElement
+            {
+                style =
+                {
+                    marginLeft = 20,
+                    marginRight = 20,
+                    backgroundColor = node_bgc,
+                    height = 100,
+                    marginTop = 10 + index*110,
+                    borderTopLeftRadius = 6,
+                    borderTopRightRadius = 6,
+                    borderBottomLeftRadius = 6,
+                    borderBottomRightRadius = 6
+                },
+                name = set["name"]
+            };
 
             Label node_name = new Label($"{set["name"]}");
             node.Add(node_name);
@@ -84,7 +90,7 @@ namespace Song.Extend.SongSet
 
             if (string.Compare(set["access"], "read/write") == 0)
             {
-                Button btn_del = new Button();
+                var btn_del = new Button();
                 btn_del.text = lang[_lang]["Delete"];
                 btn_del.style.marginLeft = Length.Percent(78);
                 btn_del.style.position   = Position.Absolute;
@@ -92,7 +98,19 @@ namespace Song.Extend.SongSet
                 btn_del.style.height     = 20;
                 node.Add(btn_del);
             }
-
+            
+            if (!string.IsNullOrWhiteSpace(set["set"]))
+            {
+                var btn_set = new Button();
+                btn_set.text = lang[_lang]["Set"];
+                btn_set.style.marginLeft = Length.Percent(68);
+                btn_set.style.position   = Position.Absolute;
+                btn_set.style.marginTop  = 72;
+                btn_set.style.height     = 20;
+                node.Add(btn_set);
+                btn_set.clicked+= delegate { ShowSetting(set["set"]);};
+            }
+            
             Button btn_update = new Button();
             btn_update.text = lang[_lang]["Update"];
             btn_update.style.marginLeft = Length.Percent(88);
@@ -102,6 +120,21 @@ namespace Song.Extend.SongSet
             node.Add(btn_update);
 
             return node;
+        }
+
+        public void ShowSetting(string path)
+        {
+            var settingPanel = new VisualElement();
+            root.Add(settingPanel);
+            settingPanel.StretchToParentSize();
+            settingPanel.BringToFront();
+
+            var set = Config.LoadSet(path);
+            foreach (var item in set.datas)
+            {
+                var node = new VisualElement();
+                // settingPanel.Add();
+            }
         }
     }
 }

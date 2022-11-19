@@ -1,18 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.IO;
 using Song.Editor.Core.Data;
 using Song.Runtime.Core.Data;
-using Unity.Jobs;
-using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
-using Object = UnityEngine.Object;
 
 namespace Song.Editor.Core.Tools
 {
@@ -64,13 +57,13 @@ namespace Song.Editor.Core.Tools
             scroll.Add(group);
             group.StretchToParentSize();
 
-            assets = GetFiles(Application.dataPath, fileformat);
+            // assets = SongEditorUtility.GetFiles(Application.dataPath, fileformat);
 
             field.RegisterValueChangedCallback(x =>
             {
                 var value = x.newValue;
                 if (string.IsNullOrWhiteSpace(value))
-                    ShowAllNode(group, assets);
+                    ShowAllNode(group,Application.dataPath ,fileformat);
                 else
                 {
                     List<string> newvalue = new List<string>();
@@ -80,38 +73,47 @@ namespace Song.Editor.Core.Tools
                         if (name.Contains(value))
                             newvalue.Add(item);
                     }
-                    ShowAllNode(group, newvalue);
+                    ShowAllNode(group,Application.dataPath ,fileformat);
                 }
             });
 
             root.Add(field);
             root.Add(scroll);
 
-            ShowAllNode(group, assets);
+            ShowAllNode(group,Application.dataPath ,fileformat);
         }
 
-        public void ShowAllNode(GroupBox group,List<string> paths)
+        // public void ShowAllNode(GroupBox group,List<string> paths)
+        public void ShowAllNode(GroupBox group,string dirPath,string pattern)
         {
             group.Clear();
-            foreach (var item in paths)
+            SongEditorUtility.GetFilesAsync(dirPath,pattern, delegate(string fileName)
             {
-                var name = Path.GetFileName(item);
-                group.Add(node(name, "Assets/" + item.Replace(Application.dataPath, "")));
-            }
+                var name = Path.GetFileName(fileName);
+                var item = node(name, "Assets/" + fileName.Replace(Application.dataPath, ""));
+                group.Add(item);
+                // item.AScale(new Vector2(1,1), 0.1f);
+            });
         }
 
         public VisualElement node(string name,string path)
         {
-            VisualElement node    = new VisualElement();
-            node.style.width      = 64;
-            node.style.height     = 64;
-            node.style.marginLeft = 30;
-            node.style.marginTop  = 30;
-            node.style.borderTopLeftRadius = 4;
-            node.style.borderTopRightRadius = 4;
-            node.style.borderBottomLeftRadius = 4;
-            node.style.borderBottomRightRadius = 4;
-            node.style.backgroundColor = Color.white;
+            var node    = new VisualElement
+            {
+                style =
+                {
+                    width = 64,
+                    height = 64,
+                    marginLeft = 30,
+                    marginTop = 30,
+                    borderTopLeftRadius = 4,
+                    borderTopRightRadius = 4,
+                    borderBottomLeftRadius = 4,
+                    borderBottomRightRadius = 4,
+                    backgroundColor = Color.white,
+                    scale = Vector2.one
+                }
+            };
             node.RegisterCallback<MouseDownEvent>(x =>
             {
                 CallBack?.Invoke(path);
@@ -128,7 +130,7 @@ namespace Song.Editor.Core.Tools
                 node.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>(set[extend]);
                 node.style.backgroundColor = panel_bgc;
             }
-            Label node_name = new Label();
+            var node_name = new Label();
             if (name.Length > 12) name = name.Substring(0, 12) + "...";
             node_name.text = name;
             node_name.style.marginTop = 72;
@@ -137,40 +139,10 @@ namespace Song.Editor.Core.Tools
             node.tooltip = path;
             return node;
         }
-
-        static List<string> GetFiles(string directory,string pattern = "*")
-        {
-            List<string> files = new List<string>();
-            foreach (var item in Directory.GetFiles(directory))
-            {
-                if (item.EndsWith(".meta"))
-                    continue;
-                else if (pattern == "*")
-                    files.Add(item);
-                else if (pattern.Contains(Path.GetExtension(item)))
-                {
-                    files.Add(item);
-                }
-            }
-            foreach (var item in Directory.GetDirectories(directory))
-            {
-                files.AddRange(GetFiles(item,pattern));
-            }
-            return files;
-        }
-
+        
         public void OnDestroy()
         {
             WindowCloseCallBack?.Invoke();
-        }
-    }
-
-    public struct FileSelectionJob<T> : IJob where T :Object
-    {
-
-        public void Execute()
-        {
-            AssetDatabase.FindAssets("t:"+typeof(T).ToString());
         }
     }
 }

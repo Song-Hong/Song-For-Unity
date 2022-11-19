@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Song.Editor.Core.Tools;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -70,19 +71,21 @@ namespace Song.Extend.UML
         /// <param name="data"></param>
         public void CreateNode(UMLNodeData data)
         {
-            UMLNode node = new UMLNode();
-            node.title = data.name;
-            data.rect.height = (data.Attribute.Count+data.Method.Count)*50 + 100;
+            UmlNode node = new UmlNode(data);
+            // node.title = data.name;
+            node.style.height = (data.Attribute.Count+data.Method.Count)*30 + 100;
+            node.style.width = 200;
+            node.style.backgroundColor = new Color(0.219f,0.219f,0.219f);
             node.SetPosition(data.rect);
-            var inPort = node.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(float));
-            inPort.portName = "in";
-            var outPort = node.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(float));
-            outPort.portName = "out";
-            node.inputContainer.Add(inPort);
-            node.outputContainer.Add(outPort);
-            node.RefreshPorts();
+            // var inPort = node.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(float));
+            // inPort.portName = "";
+            // var outPort = node.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(float));
+            // outPort.portName = "";
+            // node.inputContainer.Add(inPort);
+            // inPort.highlight = true;
+            // node.outputContainer.Add(outPort);
+            // node.RefreshPorts();
             view.AddElement(node);
         }
-
     }
 }
