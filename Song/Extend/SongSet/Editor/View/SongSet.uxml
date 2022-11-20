@@ -1,5 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/Song/Extend/SongSet/Editor/View/SongSet.uss?fileID=7433441132597879392&amp;guid=be7d43206fd2f40ec8ea51183a085614&amp;type=3#SongSet" />
-    <ui:ScrollView name="LeftMenu" style="position: absolute; width: 20%; height: 100%; background-color: rgb(58, 58, 58);" />
-    <ui:VisualElement name="RightPanel" style="flex-grow: 1; position: absolute; width: 80%; height: 100%; left: 20%;" />
-</ui:UXML>
