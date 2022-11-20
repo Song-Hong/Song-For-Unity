@@ -8,13 +8,13 @@
 
 #####   Extend
 
-    Set	: Contains init、net、song extend package tools
+    Set	       : Contains init、net、song extend package tools
 
-    UMLEditor : Create and manage UML files
+    LangEditor : Quick Create Lang File and Manager
 
+    UMLEditor  : Create and manage UML files
 
 
 #### Runtime Mode
 
   ##### None
-
