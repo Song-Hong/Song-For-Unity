@@ -16,7 +16,6 @@ namespace Song.Editor.Core.Tools
         private static Action<string> CallBack;
         private static Action WindowCloseCallBack;
         private static string fileformat;
-        private List<string> assets;
         private static Set set;
 
         public static void ShowWindow(string format, Action<string> ClickCallBack = null, Action CloseCallBack = null,string title = "") 
@@ -56,24 +55,26 @@ namespace Song.Editor.Core.Tools
             group.style.flexWrap = Wrap.Wrap;
             scroll.Add(group);
             group.StretchToParentSize();
-
-            // assets = SongEditorUtility.GetFiles(Application.dataPath, fileformat);
-
+            
             field.RegisterValueChangedCallback(x =>
             {
                 var value = x.newValue;
                 if (string.IsNullOrWhiteSpace(value))
-                    ShowAllNode(group,Application.dataPath ,fileformat);
+                {
+                    foreach (var node in group.Children())
+                    {
+                        node.style.display = DisplayStyle.Flex;
+                    }
+                }
                 else
                 {
-                    List<string> newvalue = new List<string>();
-                    foreach (var item in assets)
+                    foreach (var node in group.Children())
                     {
-                        var name = Path.GetFileName(item);
-                        if (name.Contains(value))
-                            newvalue.Add(item);
+                        if (!node.name.Contains(value))
+                        {
+                            node.style.display = DisplayStyle.None;
+                        }
                     }
-                    ShowAllNode(group,Application.dataPath ,fileformat);
                 }
             });
 
@@ -130,6 +131,7 @@ namespace Song.Editor.Core.Tools
                 node.style.backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>(set[extend]);
                 node.style.backgroundColor = panel_bgc;
             }
+            node.name = name;
             var node_name = new Label();
             if (name.Length > 12) name = name.Substring(0, 12) + "...";
             node_name.text = name;

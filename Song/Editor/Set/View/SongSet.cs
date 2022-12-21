@@ -35,8 +35,8 @@ namespace Song.Extend.SongSet
         #endregion
 
         #region Style
-        private Color btn_click = new Color(0.133f, 0.650f, 0.949f);
-        private Color btn_default = new Color(0.227f, 0.227f, 0.227f);
+        private readonly Color _btnClick = new Color(0.133f, 0.650f, 0.949f);
+        private readonly Color _btnDefault = new Color(0.227f, 0.227f, 0.227f);
         #endregion
 
         #region MyRegion
@@ -84,60 +84,60 @@ namespace Song.Extend.SongSet
             foreach (var page in pages)
             {
                 page.Value.songset = this;
-                Button left_btn = new Button();
-                left_btn.name = page.Key;
+                Button leftBtn = new Button();
+                leftBtn.name = page.Key;
                 if (langdata[lang].datas.ContainsKey(page.Key))
                 {
-                    left_btn.text = langdata[lang][page.Key];
+                    leftBtn.text = langdata[lang][page.Key];
                 }
                 else
                 {
-                    left_btn.text = page.Value.Name();
+                    leftBtn.text = page.Value.Name();
                 }
-                leftmenu.Add(left_btn);
-                left_btn.AddToClassList("LeftItem");
-                left_btn.clicked += delegate
+                leftmenu.Add(leftBtn);
+                leftBtn.AddToClassList("LeftItem");
+                leftBtn.clicked += delegate
                 {
-                    ShowRightPanel(left_btn, page);
+                    ShowRightPanel(leftBtn, page);
                 };
                 if (lastbtn == null)
                 {
-                    ShowRightPanel(left_btn, page);
+                    ShowRightPanel(leftBtn, page);
                 }
             }
         }
 
-        public void ShowRightPanel(Button left_btn, KeyValuePair<string, SongSetPage> page)
+        public void ShowRightPanel(Button leftBtn, KeyValuePair<string, SongSetPage> page)
         {
-            if (lastbtn != null && string.Compare(left_btn.name, lastbtn.name) == 0) return;
+            if (lastbtn != null && String.CompareOrdinal(leftBtn.name, lastbtn.name) == 0) return;
             if (lastbtn != null)
             {
                 nowpage.OnClose();
-                lastbtn.style.backgroundColor = btn_default;
+                lastbtn.style.backgroundColor = _btnDefault;
             }
-            left_btn.style.backgroundColor = btn_click;
-            var new_rightpanel = page.Value.Show();
+            leftBtn.style.backgroundColor = _btnClick;
+            var newRightpanel = page.Value.Show();
             rightpanel.Clear();
-            rightpanel.Add(new_rightpanel);
-            new_rightpanel.StretchToParentSize();
-            lastbtn = left_btn;
+            rightpanel.Add(newRightpanel);
+            newRightpanel.StretchToParentSize();
+            lastbtn = leftBtn;
             nowpage = page.Value;
         }
 
-        public void GetAssets(string format, Action<string> CallBack = null)
+        public void GetAssets(string format, Action<string> callBack = null)
         {
             SongFileSelection.ShowWindow(format, (string path) =>
             {
-                CallBack?.Invoke(path);
+                callBack?.Invoke(path);
             }, delegate { GetWindow<SongSet>().Show(); });
         }
 
         public void RepaintRightPanel()
         {
-            var new_rightpanel = nowpage.Show();
+            var panel = nowpage.Show();
             rightpanel.Clear();
-            rightpanel.Add(new_rightpanel);
-            new_rightpanel.StretchToParentSize();
+            rightpanel.Add(panel);
+            panel.StretchToParentSize();
         }
 
         public void ReloadLeftButtonName()
